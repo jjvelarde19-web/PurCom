@@ -1,0 +1,208 @@
+‎<!DOCTYPE html>
+‎<html lang="en">
+‎<head>
+‎  <meta charset="UTF-8">
+‎  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+‎  <title>Otaku Figurine Haven</title>
+‎
+‎  <style>
+‎    body {
+‎      font-family: Arial, sans-serif;
+‎      background: #f4fdfd;
+‎      margin: 0;
+‎      padding: 0;
+‎    }
+‎
+‎    header {
+‎      background-color: #17a2a3;
+‎      color: white;
+‎      padding: 15px 30px;
+‎      display: flex;
+‎      align-items: center;
+‎      justify-content: space-between;
+‎    }
+‎    header h1 {
+‎      margin: 0;
+‎      font-size: 24px;
+‎      font-weight: 700;
+‎    }
+‎
+‎    .cart-toggle {
+‎      background: white;
+‎      color: #17a2a3;
+‎      padding: 10px 15px;
+‎      border-radius: 5px;
+‎      cursor: pointer;
+‎      border: 2px solid #17a2a3;
+‎      font-weight: bold;
+‎    }
+‎
+‎    .products {
+‎      display: grid;
+‎      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+‎      gap: 20px;
+‎      padding: 20px;
+‎    }
+‎    .product {
+‎      background: white;
+‎      border-radius: 10px;
+‎      padding: 10px;
+‎      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+‎      text-align: center;
+‎    }
+‎    .product img {
+‎      width: 100%;
+‎      height: 180px;
+‎      object-fit: cover;
+‎      border-radius: 10px;
+‎    }
+‎    .price {
+‎      color: #17a2a3;
+‎      font-size: 18px;
+‎      font-weight: bold;
+‎    }
+‎    .btn {
+‎      background: #17a2a3;
+‎      color: white;
+‎      padding: 10px 15px;
+‎      border: none;
+‎      border-radius: 5px;
+‎      cursor: pointer;
+‎    }
+‎
+‎    .cart-panel {
+‎      position: fixed;
+‎      right: -400px;
+‎      top: 0;
+‎      width: 350px;
+‎      height: 100%;
+‎      background: white;
+‎      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+‎      padding: 20px;
+‎      transition: .4s;
+‎      overflow-y: auto;
+‎      z-index: 999;
+‎    }
+‎    .cart-panel.open { right: 0; }
+‎
+‎    .cart-item {
+‎      display: flex;
+‎      justify-content: space-between;
+‎      background: #e9ffff;
+‎      padding: 10px;
+‎      border-radius: 6px;
+‎      margin-bottom: 10px;
+‎    }
+‎    .qty-btn {
+‎      background: #17a2a3;
+‎      color: white;
+‎      border: none;
+‎      padding: 5px 8px;
+‎      cursor: pointer;
+‎      border-radius: 4px;
+‎    }
+‎    .remove-btn {
+‎      background: #ff3b3b;
+‎      color: white;
+‎      border: none;
+‎      padding: 5px 8px;
+‎      cursor: pointer;
+‎      border-radius: 5px;
+‎    }
+‎
+‎    .checkout-btn {
+‎      width: 100%;
+‎      margin-top: 20px;
+‎      padding: 10px;
+‎      background: #0f7d7e;
+‎      color: white;
+‎      border: none;
+‎      border-radius: 6px;
+‎      font-size: 16px;
+‎      cursor: pointer;
+‎    }
+‎
+‎    .modal {
+‎      display: none;
+‎      position: fixed;
+‎      top: 0; left: 0;
+‎      width: 100%; height: 100%;
+‎      background: rgba(0,0,0,0.5);
+‎      justify-content: center;
+‎      align-items: center;
+‎      z-index: 2000;
+‎    }
+‎    .modal.active { display: flex; }
+‎
+‎    .modal-content {
+‎      background: white;
+‎      width: 90%;
+‎      max-width: 400px;
+‎      padding: 20px;
+‎      border-radius: 10px;
+‎    }
+‎    .modal-content h2 {
+‎      text-align: center;
+‎      color: #17a2a3;
+‎    }
+‎    input, select {
+‎      width: 100%;
+‎      padding: 10px;
+‎      margin: 8px 0;
+‎      border-radius: 6px;
+‎      border: 1px solid #ccc;
+‎    }
+‎    .pay-btn {
+‎      width: 100%;
+‎      padding: 12px;
+‎      background: #17a2a3;
+‎      color: white;
+‎      font-size: 16px;
+‎      border: none;
+‎      border-radius: 6px;
+‎      cursor: pointer;
+‎    }
+‎  </style>
+‎</head>
+‎
+‎<body>
+‎
+‎<header>
+‎  <h1>Otaku Figurine Haven</h1>
+‎  <button class="cart-toggle" onclick="toggleCart()">🛒 Cart (<span id='cartCount'>0</span>)</button>
+‎</header>
+‎
+‎<section class="products">
+‎
+‎  <div class="product">
+‎    <img src="https://uploads.onecompiler.io/445pbn59u/445pbnrmp/1000020704.jpg">
+‎    <h3>Naruto Uzumaki Figurine</h3>
+‎    <p class="price">₱1,299</p>
+‎    <button class="btn" onclick="addToCart('Naruto Uzumaki Figurine', 1299)">Add to Cart</button>
+‎  </div>
+‎
+‎  <div class="product">
+‎    <img src="https://uploads.onecompiler.io/445pbn59u/445pbnrmp/1000020705.jpg">
+‎
+‎otos/seed/anime2/300/200">
+‎    <h3>Goku Super Saiyan Figurine</h3>
+‎    <p class="price">₱1,499</p>
+‎    <button class="btn" onclick="addToCart('Goku Super Saiyan Figurine', 1499)">Add to Cart</button>
+‎  </div>
+‎
+‎  <div class="product">
+‎    <img src="https://uploads.onecompiler.io/445pbn59u/445pbnrmp/1000020706.jpg">
+‎    <h3>Demon Slayer Nezuko Figurine</h3>
+‎    <p class="price">₱999</p>
+‎    <button class="btn" onclick="addToCart('Nezuko Figurine', 999)">Add to Cart</button>
+‎  </div>
+‎
+‎</section>
+‎
+‎<div class="cart-panel" id="cartPanel"></div>
+‎
+‎<div class="modal" id="paymentModal">
+‎  <div class="modal-content">
+‎    <h2>Checkout</h2>
+‎
+‎
